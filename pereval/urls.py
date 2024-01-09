@@ -22,7 +22,8 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('mainapp.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+
 ]
 
 if settings.DEBUG:
