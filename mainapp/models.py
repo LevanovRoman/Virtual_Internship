@@ -58,10 +58,11 @@ class Pereval(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     coordinates = models.OneToOneField(Coordinates, on_delete=models.CASCADE, verbose_name='Координаты')
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=NEW, verbose_name='Статус')
     beauty_title = models.CharField(max_length=100, blank=True, verbose_name='Основное название вершины')
     title = models.CharField(max_length=100, verbose_name='Название вершины')
-    other_titles = models.CharField(max_length=100, blank=True, verbose_name='Другое название' )
+    other_titles = models.CharField(max_length=100, blank=True, verbose_name='Другое название')
     connect = models.CharField(max_length=100, blank=True, verbose_name='Связывает')
     add_time = models.TimeField(auto_now_add=True)
 
@@ -75,8 +76,8 @@ class Pereval(models.Model):
 
 class Image(models.Model):
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, related_name='images', null=True, blank=True)
-    data = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Изображение',
-                             null=True, blank=True)
+    data = models.CharField(max_length=255, verbose_name='Изображение',
+                            null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True, verbose_name="Название")
 
     def __str__(self):

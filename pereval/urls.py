@@ -25,10 +25,6 @@ from mainapp import views
 # from mainapp.views import *
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UsersViewSet)
-router.register(r'coords', views.CoordinatesViewSet)
-router.register(r'level', views.LevelViewSet)
-router.register(r'images', views.ImageViewSet)
 router.register(r'pereval', views.PerevalViewSet)
 
 
