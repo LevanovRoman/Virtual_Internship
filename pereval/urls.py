@@ -17,12 +17,25 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
 from . import settings
+from mainapp import views
+
+# from mainapp.views import *
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UsersViewSet)
+router.register(r'coords', views.CoordinatesViewSet)
+router.register(r'level', views.LevelViewSet)
+router.register(r'images', views.ImageViewSet)
+router.register(r'pereval', views.PerevalViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('api/submitData/', include(router.urls)),
 
 ]
 

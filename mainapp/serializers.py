@@ -1,26 +1,14 @@
 from rest_framework import serializers
+from drf_writable_nested import WritableNestedModelSerializer
+
 from .models import *
 
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Users
+        model = User
         fields = ('email', 'fam', 'name', 'otc', 'phone')
         verbose_name = 'Турист'
-
-    # def save(self, **kwargs):
-    #     self.is_valid()
-    #     user = User.objects.filter(email=self.validated_data.get('email'))
-    #     if user.exists():
-    #         return user.first()
-    #     else:
-    #         return User.objects.create(
-    #             email=self.validated_data.get('email'),
-    #             fam=self.validated_data.get('fam'),
-    #             name=self.validated_data.get('name'),
-    #             otc=self.validated_data.get('otc'),
-    #             phone=self.validated_data.get('phone'),
-    #         )
 
 
 class CoordinatesSerializer(serializers.ModelSerializer):
@@ -46,60 +34,17 @@ class ImageSerializer(serializers.ModelSerializer):
         verbose_name = 'Фото'
 
 
-# class PerevalSerializer(WritableNestedModelSerializer):
-#     user = UsersSerializer()
-#     coordinates = CoordinatesSerializer()
-#     level = LevelSerializer(allow_null=True)
-#     images = ImageSerializer(many=True)
-#
-#     class Meta:
-#         model = Pereval
-#         fields = (
-#             'id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coordinates', 'level',
-#             'images', 'status')
-#         read_only_fields = ['status']
-#
-#     # Сохранение данных о перевале, полученных от пользователя
-#     def create(self, validated_data, **kwargs):
-#         user = validated_data.pop('user')
-#         coords = validated_data.pop('coords')
-#         level = validated_data.pop('level')
-#         images = validated_data.pop('images')
-#
-#         # проверка уникальности пользователя
-#         pick_user = User.objects.filter(email=user['email'])
-#         if pick_user.exists():
-#             user_serializer = UserSerializer(data=user)
-#             user_serializer.is_valid(raise_exception=True)
-#             user = user_serializer.save()
-#         else:
-#             user = User.objects.create(**user)
-#
-#         coords = Coords.objects.create(**coords)
-#         level = Level.objects.create(**level)
-#         pereval = Pereval.objects.create(**validated_data, user=user, coords=coords, level=level, status='new')
-#
-#         for image in images:
-#             data = image.pop('data')
-#             title = image.pop('title')
-#             Image.objects.create(data=data, pereval=pereval, title=title)
-#
-#         return pereval
-#
-#     # выполняет ТЗ о невозможности изменять данные пользователя при редактировании данных о перевале
-#     def validate(self, data):
-#         if self.instance is not None:
-#             instance_user = self.instance.user
-#             data_user = data.get('user')
-#             validating_user_fields = [
-#                 instance_user.fam != data_user['fam'],
-#                 instance_user.name != data_user['name'],
-#                 instance_user.otc != data_user['otc'],
-#                 instance_user.phone != data_user['phone'],
-#                 instance_user.email != data_user['email'],
-#             ]
-#             if data_user is not None and any(validating_user_fields):
-#                 raise serializers.ValidationError({'Данные пользователя не могут быть изменены'})
-#         return data
+class PerevalSerializer(WritableNestedModelSerializer):
+    user = UsersSerializer()
+    coordinates = CoordinatesSerializer()
+    level = LevelSerializer(allow_null=True)
+    images = ImageSerializer(many=True)
+
+    class Meta:
+        model = Pereval
+        fields = (
+            'id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coordinates', 'level',
+            'images', 'status')
+        read_only_fields = ['status']
 
 

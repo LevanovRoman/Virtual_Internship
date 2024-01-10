@@ -1,16 +1,20 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db import models
 
 
-class Users(models.Model):
-    name = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Имя')
+class User(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Имя')
     email = models.CharField(max_length=100, unique=True, verbose_name='Почта')
     fam = models.CharField(max_length=50, verbose_name='Фамилия')
     otc = models.CharField(max_length=50, verbose_name='Отчество')
     phone = models.CharField(max_length=20, unique=True, verbose_name='Контактный телефон')
 
     def __str__(self):
-        return self.name.username
+        return f'{self.fam} {self.name} {self.email}'
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 
 class Coordinates(models.Model):
@@ -52,7 +56,7 @@ class Pereval(models.Model):
         ("Rejected", "отклонен"),
     ]
 
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     coordinates = models.OneToOneField(Coordinates, on_delete=models.CASCADE, verbose_name='Координаты')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=NEW, verbose_name='Статус')
     beauty_title = models.CharField(max_length=100, blank=True, verbose_name='Основное название вершины')
@@ -74,7 +78,6 @@ class Image(models.Model):
     data = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Изображение',
                              null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True, verbose_name="Название")
-    # date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.pk}: {self.title}"
