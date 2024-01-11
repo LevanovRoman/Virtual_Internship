@@ -1,4 +1,5 @@
-from rest_framework import viewsets, status
+from django.http import JsonResponse
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 
 # from .models import *
@@ -53,3 +54,21 @@ class PerevalViewSet(viewsets.ModelViewSet):
                 'message': 'Ошибка подключения к базе данных',
                 'id': None,
             })
+
+
+class EmailAPIView(generics.ListAPIView):
+    serializer_class = PerevalSerializer
+
+    def get(self, request, *args, **kwargs):
+        email = kwargs.get('email', None)
+        print("GET EMAIL")
+        print(email)
+        if Pereval.objects.filter(user__email=email):
+            data = PerevalSerializer(Pereval.objects.filter(user__email=email), many=True).data
+            api_status = status.HTTP_200_OK
+        else:
+            data = {
+                'message': f'Не существует пользователя с таким email - {email}'
+            }
+            api_status = 404
+        return JsonResponse(data, status=api_status, safe=False)

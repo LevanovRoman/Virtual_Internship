@@ -3,10 +3,10 @@ from django.db import models
 
 class User(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
-    email = models.CharField(max_length=100, unique=True, verbose_name='Почта')
+    email = models.CharField(max_length=100, verbose_name='Почта')
     fam = models.CharField(max_length=50, verbose_name='Фамилия')
     otc = models.CharField(max_length=50, verbose_name='Отчество')
-    phone = models.CharField(max_length=20, unique=True, verbose_name='Контактный телефон')
+    phone = models.CharField(max_length=20, verbose_name='Контактный телефон')
 
     def __str__(self):
         return f'{self.fam} {self.name} {self.email}'

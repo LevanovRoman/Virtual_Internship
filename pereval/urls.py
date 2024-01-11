@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/submitData/', include(router.urls)),
+    path('api/submitData/user__email=<str:email>', views.EmailAPIView.as_view(), name='email-pereval'),
 
 ]
 
