@@ -3,9 +3,9 @@
 Этот проект разрабатывается студентами [SkillFactory](https://skillfactory.ru/python-developer) для Федерации Спортивного Туризма и Развития (ФСТР) с целью упростить
 процесс учета горных перевалов и сократить время обработки данных. По заданию необходимо усовершенствовать  REST API 
 для ведения базы горных перевалов, которая пополняется туристами.
-Реализованы методы: API POST/submitData для добавления туристом информации о новом перевале; 
-GET /submitData/<id> — получение одной записи о перевале по ее id, в том числе статус модерации;
-PATCH /submitData/<id> — редактирование существующей записи, если она еще не поступила в работу модератору, 
+Реализованы методы: API POST/submitData/pereval для добавления туристом информации о новом перевале; 
+GET /submitData/pereval/<id> — получение одной записи о перевале по ее id, в том числе статус модерации;
+PATCH /submitData/pereval/<id> — редактирование существующей записи, если она еще не поступила в работу модератору, 
 а также GET /submitData/?user__email=<email> — список данных обо всех объектах, которые пользователь с почтой <email> отправил на сервер.
 
 ###  Параметры реализации:
@@ -25,11 +25,11 @@ pip install -r requirements.txt
 3. Добавлен визуальный интерфейс Swagger. За основу при установке взят следующий [источник](https://appliku.com/post/django-rest-framework-swagger-openapi-tutorial)
 Его работа доступна по адресу /api/schema/swagger-ui, для генерирования документации /api/schema/redoc/
 4. Код приложения был покрыт тестами, установлена библиотека coverage. 
-5. Проект размещен на хостинге http://akchuranne.pythonanywhere.com В нем используется база данных db.sqlite3.
+5. Проект размещен на хостинге http://romanld4.beget.tech В нем используется база данных mysql.
 Рабочий проект на базе данных PostgreSQL(конвертация с помощью ./manage.py dumpdata > dump.json,
 ./manage.py loaddata dump.json)
-Примеры вызова REST API с хостинга http://akchuranne.pythonanywhere.com/api/submitData/pereval/3/ - получение информации о перевале по его id.
-http://akchuranne.pythonanywhere.com/api/submitData/user__email=sendmailsend@yandex.ru - список данных обо всех объектах, созданных пользователем с электронной почтой sendmailsend@yandex.ru,
+Примеры вызова REST API с хостинга http://romanld4.beget.tech/api/submitData/pereval/3/ - получение информации о перевале по его id.
+http://romanld4.beget.tech/api/submitData/user__email=sendmailsend@yandex.ru - список данных обо всех объектах, созданных пользователем с электронной почтой sendmailsend@yandex.ru,
 
 
 ### Как работать с API (endpoints):

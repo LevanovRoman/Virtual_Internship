@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 
-# from .models import *
 from .serializers import *
 
 
@@ -62,8 +61,6 @@ class EmailAPIView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         email = kwargs.get('email', None)
-        print("GET EMAIL")
-        print(email)
         if Pereval.objects.filter(user__email=email):
             data = PerevalSerializer(Pereval.objects.filter(user__email=email), many=True).data
             api_status = status.HTTP_200_OK
